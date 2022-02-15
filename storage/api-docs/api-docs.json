@@ -1,0 +1,55 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Your super ApplicationAPI",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/login": {
+            "post": {
+                "tags": [
+                    "login"
+                ],
+                "operationId": "loginUser",
+                "requestBody": {
+                    "description": "Input data format",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "Users email",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "Users password",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfuly logged in"
+                    }
+                }
+            }
+        },
+        "/": {
+            "get": {
+                "description": "Home page",
+                "responses": {
+                    "default": {
+                        "description": "Welcome page"
+                    }
+                }
+            }
+        }
+    },
+    "security": [
+        []
+    ]
+}

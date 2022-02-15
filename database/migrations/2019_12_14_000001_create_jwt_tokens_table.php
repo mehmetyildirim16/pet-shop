@@ -17,7 +17,7 @@ class CreateJwtTokensTable extends Migration
         Schema::create('jwt_tokens', function (Blueprint $table) {
             $table->id();
             $table->text('unique_id')->nullable();
-            $table->unsignedBigInteger('user_id');
+            $table->string('user_id');
             $table->string('token_title');
             $table->json('restrictions')->nullable();
             $table->json('permissions')->nullable();
