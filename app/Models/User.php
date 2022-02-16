@@ -229,4 +229,15 @@ class User extends Authenticatable
         return $this->is_admin;
     }
 
+
+    /**
+     * Get the valid token for the model.
+     *
+     * @return UserToken|null
+     */
+    public function getValidToken(): UserToken | null
+    {
+        return UserToken::where('user_id', $this->uuid)->where('expires_at', '>', now())->latest()->first();
+    }
+
 }

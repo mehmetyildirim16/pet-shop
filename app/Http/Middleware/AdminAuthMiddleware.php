@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use App\Models\User;
 use Closure;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 
 class AdminAuthMiddleware

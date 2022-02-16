@@ -125,4 +125,42 @@ class AuthController extends Controller
         }
         return response()->json(new UserResponse($user));
     }
+
+    /**
+     * @OA\Get(
+     *     path="/api/v1/logout",
+     *     tags={"logout"},
+     *     operationId="logout",
+     *     @OA\Responses(
+     *         response=200,
+     *         description="Successfuly logged out",
+     *     ),
+     *     security={
+     *          {"bearer": {}}
+     *     }
+     * )
+     */
+    public function logoutAsUser(Request $request): JsonResponse
+    {
+        return $this->loginAction->logout($request->bearerToken());
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/api/v1/admin/logout",
+     *     tags={"logout"},
+     *     operationId="logout",
+     *     @OA\Responses(
+     *         response=200,
+     *         description="Successfuly logged out",
+     *     ),
+     *     security={
+     *          {"bearer": {}}
+     *     }
+     * )
+     */
+    public function logoutAsAdmin(Request $request): JsonResponse
+    {
+        return $this->loginAction->logout($request->bearerToken());
+    }
 }

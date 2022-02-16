@@ -5,6 +5,7 @@ namespace App\Actions;
 
 use App\Config\JwtIssuer;
 use App\Models\User;
+use App\Models\UserToken;
 use Illuminate\Http\JsonResponse;
 use App\Data\Responses\Auth\LoginResponse;
 
@@ -61,5 +62,14 @@ class LoginAction
         $user->addToken($token);
 
         return (new LoginResponse( $token->claims()->toString()))->jsonSerialize();
+    }
+
+    public function logout(?string $bearerToken):JsonResponse
+    {
+        $token = UserToken::whereUniqueId($bearerToken)->first();
+        if($token) {
+            $token->delete();
+        }
+        return response()->json(['message' => 'Logged out']);
     }
 }
