@@ -20,10 +20,25 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::prefix('/v1')->group(function () {
+    //Dummy route to check if the API is working
     Route::get('/ping', fn()=> ['status' => 'OK']);
 
+    //User routes
     Route::controller(AuthController::class)->group(function () {
-        Route::post('/login', [AuthController::class, 'login']);
+        Route::post('/login', 'loginAsUser');
+
+        Route::middleware('auth.user')->group(function () {
+            Route::get('/me', 'getUser');
+        });
+    });
+
+
+    //Admin routes
+    Route::prefix('/admin')->group(function (){
+        Route::post('/login', [AuthController::class, 'loginAsAdmin']);
+        Route::middleware('auth.user')->group(function () {
+            Route::get('/me', [AuthController::class, 'getUser']);
+        });
     });
 
 });

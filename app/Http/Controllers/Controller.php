@@ -12,7 +12,7 @@ use Illuminate\Routing\Controller as BaseController;
  *  * @OA\Get(
  *     path="/",
  *     description="Home page",
- *     @OA\Response(response="default", description="Welcome page")
+ *     @OA\Responses(response="default", description="Welcome page")
  * )
  */
 class Controller extends BaseController

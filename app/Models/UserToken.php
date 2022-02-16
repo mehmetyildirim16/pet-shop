@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
  * App\Models\UserToken
@@ -40,10 +41,8 @@ class UserToken extends Model
     protected $guarded = [];
     protected $table = 'jwt_tokens';
 
-    public function user()
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id', 'uuid');
     }
-
-
 }

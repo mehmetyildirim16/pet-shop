@@ -6,6 +6,7 @@ namespace App\Actions;
 use App\Config\JwtIssuer;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use App\Data\Responses\Auth\LoginResponse;
 
 class LoginAction
 {
@@ -14,6 +15,24 @@ class LoginAction
     public function __construct(JwtIssuer $issuer)
     {
         $this->issuer = $issuer;
+    }
+
+    public function logAdminIn(array $credentials): JsonResponse
+    {
+        $user = User::whereEmail($credentials['email'])->first();
+        if($user && !$user->isAdmin()) {
+            return response()->json(['message' => 'You are not an admin'], 403);
+        }
+        return $this->execute($credentials);
+    }
+
+    public function logUserIn(array $credentials): JsonResponse
+    {
+        $user = User::whereEmail($credentials['email'])->first();
+        if($user && $user->isAdmin()) {
+            return response()->json(['message' => 'You are an admin'], 403);
+        }
+        return $this->execute($credentials);
     }
 
     public function execute(array $credentials):JsonResponse
@@ -41,9 +60,6 @@ class LoginAction
 
         $user->addToken($token);
 
-        return response()
-            ->json([
-                       'token' => $token->claims()->toString(),
-                   ]);
+        return (new LoginResponse( $token->claims()->toString()))->jsonSerialize();
     }
 }

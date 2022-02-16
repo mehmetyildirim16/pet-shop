@@ -5,7 +5,7 @@
         "version": "1.0.0"
     },
     "paths": {
-        "/login": {
+        "/api/login": {
             "post": {
                 "tags": [
                     "login"
@@ -38,6 +38,67 @@
                 }
             }
         },
+        "/api/v1/admin/login": {
+            "post": {
+                "tags": [
+                    "login"
+                ],
+                "operationId": "loginAdmin",
+                "requestBody": {
+                    "description": "Input data format",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "Users email",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "Users password",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfuly logged in"
+                    }
+                }
+            }
+        },
+        "/api/me": {
+            "get": {
+                "tags": [
+                    "me"
+                ],
+                "operationId": "getMe",
+                "responses": {
+                    "200": {
+                        "description": "Logged in user attributes",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/User"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
         "/": {
             "get": {
                 "description": "Home page",
@@ -45,6 +106,86 @@
                     "default": {
                         "description": "Welcome page"
                     }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "title": "User",
+                "description": "User model",
+                "properties": {
+                    "uuid": {
+                        "title": "User id",
+                        "description": "User uid",
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "first_name": {
+                        "title": "User first name",
+                        "description": "User first name",
+                        "type": "string"
+                    },
+                    "last_name": {
+                        "title": "User last name",
+                        "description": "User last name",
+                        "type": "string"
+                    },
+                    "is_admin": {
+                        "title": "User is admin",
+                        "description": "User is admin if 1 else 0",
+                        "type": "boolean"
+                    },
+                    "email": {
+                        "title": "User email",
+                        "description": "User email",
+                        "type": "string"
+                    },
+                    "email_verified_at": {
+                        "title": "User email verified at",
+                        "description": "User email verified at",
+                        "type": "string"
+                    },
+                    "avatar": {
+                        "title": "User avatar",
+                        "description": "User avatar",
+                        "type": "string"
+                    },
+                    "address": {
+                        "title": "User address",
+                        "description": "User address",
+                        "type": "string"
+                    },
+                    "phone_number": {
+                        "title": "User phone",
+                        "description": "User phone",
+                        "type": "string"
+                    },
+                    "is_marketing": {
+                        "title": "User is marketing",
+                        "description": "User is marketing if 1 else 0",
+                        "type": "boolean"
+                    },
+                    "last_login_at": {
+                        "title": "User last login at",
+                        "description": "User last login at",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "title": "User created at",
+                        "description": "User created at",
+                        "type": "string"
+                    },
+                    "updated_at": {
+                        "title": "User updated at",
+                        "description": "User updated at",
+                        "type": "string"
+                    }
+                },
+                "type": "object",
+                "xml": {
+                    "name": "User"
                 }
             }
         }
