@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Closure;
 use Illuminate\Http\Request;
 use Psy\Util\Json;
@@ -21,6 +22,12 @@ class UserAuthMiddleware
         $user = User::getUserByToken($request->bearerToken());
         if (!$user) {
             return response()->json(['message' => 'Unauthorized'], 401);
+        }
+        $token = $user->getValidToken();
+        if ($token) {
+            $token->expires_at = Carbon::now()->addMinutes(config('app.jwt_ttl'));
+            $token->last_used_at = Carbon::now();
+            $token->save();
         }
         return $next($request);
     }

@@ -15,6 +15,8 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'jwt_ttl' => 60,
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

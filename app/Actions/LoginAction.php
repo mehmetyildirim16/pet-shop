@@ -57,8 +57,8 @@ class LoginAction
                        ], 401);
         }
         $token = $this->issuer->issueToken();
-
-
+        $user->last_login_at = now();
+        $user->save();
         $user->addToken($token);
 
         return (new LoginResponse( $token->claims()->toString()))->jsonSerialize();
