@@ -8,7 +8,7 @@ use App\Models\Products\Category;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class CategoryController extends Controller
+class CategoriesController extends Controller
 {
     public function getCategories(): JsonResponse
     {

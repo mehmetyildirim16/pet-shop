@@ -3,6 +3,8 @@
 namespace App\Models\Products;
 
 
+use App\Traits\HasSlug;
+use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
@@ -29,8 +31,10 @@ use Illuminate\Support\Str;
  */
 class Category extends Model
 {
-
+    use HasSlug;
+    use HasUuid;
     use HasFactory;
+
     protected $table = 'categories';
     protected $guarded = [];
 
@@ -39,20 +43,6 @@ class Category extends Model
         return [
             'title' => 'required|string|max:255',
         ];
-    }
-
-    public static function boot(): void
-    {
-        parent::boot();
-
-        static::creating(function ($model) {
-            $model->slug = Str::slug($model->attributes['title']);
-            $model->uuid = Str::uuid();
-        });
-
-        static::updating(function ($model) {
-            $model->slug = Str::slug($model->attributes['title']);
-        });
     }
 
 }

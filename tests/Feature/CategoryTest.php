@@ -67,4 +67,19 @@ class CategoryTest extends TestCase
         self::assertEquals(0, Category::all()->count());
     }
 
+    public function test_admin_can_get_category()
+    {
+        $this->authenticate();
+        $category = Category::factory()->create();
+        $this->withToken($this->token)->get('api/v1/admin/category/'.$category->uuid)->assertStatus(200);
+    }
+
+    public function test_admin_can_get_categories()
+    {
+        $this->authenticate();
+        Category::factory(10)->create();
+        $response = $this->withToken($this->token)->get('api/v1/admin/categories')->assertStatus(200);
+        self::assertCount(10, $response->json());
+    }
+
 }

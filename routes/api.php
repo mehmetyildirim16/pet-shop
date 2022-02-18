@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\Products\CategoryController;
+use App\Http\Controllers\Products\BrandsController;
+use App\Http\Controllers\Products\CategoriesController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
@@ -43,13 +44,21 @@ Route::prefix('/v1')->group(function () {
         Route::middleware('auth.user')->group(function () {
             Route::get('/me', [AuthController::class, 'getUser']);
             Route::post('/logout', [AuthController::class, 'logoutAsAdmin']);
-            Route::get('/categories', [CategoryController::class, 'getCategories']);
-            Route::controller(CategoryController::class)->prefix('/category')->group(function () {
+            Route::get('/categories', [CategoriesController::class, 'getCategories']);
+            Route::controller(CategoriesController::class)->prefix('/category')->group(function () {
                 Route::post('/create', 'createCategory');
                 Route::get('/{uuid}', 'getCategory');
                 Route::put('/{uuid}', 'updateCategory');
                 Route::patch('/{uuid}', 'updateCategory');
                 Route::delete('/{uuid}', 'deleteCategory');
+            });
+            Route::get('/brands', [BrandsController::class, 'getBrands']);
+            Route::controller(BrandsController::class)->prefix('/brand')->group(function () {
+                Route::post('/create', 'createBrand');
+                Route::get('/{uuid}', 'getBrand');
+                Route::put('/{uuid}', 'updateBrand');
+                Route::patch('/{uuid}', 'updateBrand');
+                Route::delete('/{uuid}', 'deleteBrand');
             });
         });
     });
