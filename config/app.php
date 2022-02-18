@@ -15,6 +15,8 @@ return [
 
     'name' => env('APP_NAME', 'Laravel'),
 
+    'app_name' => 'Pet Shop',
+
     'jwt_ttl' => 60,
 
     /*

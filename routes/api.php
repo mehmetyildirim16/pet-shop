@@ -26,10 +26,12 @@ Route::prefix('/v1')->group(function () {
     //User routes
     Route::controller(AuthController::class)->group(function () {
         Route::post('/login', 'loginAsUser');
-        Route::post('/logout', 'logoutAsUser');
+        Route::post('/forgot-password', 'sendResetPasswordEmail');
+        Route::post('/reset-password', 'resetPassword');
 
         Route::middleware('auth.user')->group(function () {
             Route::get('/me', 'getUser');
+            Route::post('/logout', 'logoutAsUser');
         });
     });
 
@@ -37,9 +39,9 @@ Route::prefix('/v1')->group(function () {
     //Admin routes
     Route::prefix('/admin')->group(function (){
         Route::post('/login', [AuthController::class, 'loginAsAdmin']);
-        Route::post('/logout', [AuthController::class, 'logoutAsAdmin']);
         Route::middleware('auth.user')->group(function () {
             Route::get('/me', [AuthController::class, 'getUser']);
+            Route::post('/logout', [AuthController::class, 'logoutAsAdmin']);
         });
     });
 
