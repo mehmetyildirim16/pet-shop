@@ -44,6 +44,16 @@ class CreateProductTables extends Migration
             $table->foreign('category_uuid')->references('uuid')->on('categories')->onDelete('cascade');
         });
 
+        Schema::create('files', function (Blueprint $table) {
+            $table->id();
+            $table->uuid('uuid');
+            $table->string('path');
+            $table->string('name');
+            $table->string('size');
+            $table->string('type');
+            $table->timestamps();
+        });
+
 
     }
 
@@ -57,5 +67,6 @@ class CreateProductTables extends Migration
         Schema::dropIfExists('products');
         Schema::dropIfExists('brands');
         Schema::dropIfExists('categories');
+        Schema::dropIfExists('files');
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Products\CategoryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
@@ -42,6 +43,14 @@ Route::prefix('/v1')->group(function () {
         Route::middleware('auth.user')->group(function () {
             Route::get('/me', [AuthController::class, 'getUser']);
             Route::post('/logout', [AuthController::class, 'logoutAsAdmin']);
+            Route::get('/categories', [CategoryController::class, 'getCategories']);
+            Route::controller(CategoryController::class)->prefix('/category')->group(function () {
+                Route::post('/create', 'createCategory');
+                Route::get('/{uuid}', 'getCategory');
+                Route::put('/{uuid}', 'updateCategory');
+                Route::patch('/{uuid}', 'updateCategory');
+                Route::delete('/{uuid}', 'deleteCategory');
+            });
         });
     });
 
