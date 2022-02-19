@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Products\Brand;
 use App\Models\Products\Category;
+use App\Models\Products\Product;
 use Database\Factories\Products\CategoryFactory;
 use Illuminate\Database\Seeder;
 
@@ -18,5 +19,6 @@ class ProductSeeder extends Seeder
     {
         Category::factory(10)->create();
         Brand::factory(10)->create();
+        Product::factory(100)->create();
     }
 }

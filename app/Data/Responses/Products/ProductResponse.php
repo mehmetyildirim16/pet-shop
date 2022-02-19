@@ -3,27 +3,32 @@
 namespace App\Data\Responses\Products;
 
 use App\Data\Responses\BaseJsonResponse;
-use App\Models\Products\Brand;
+use App\Models\Products\Product;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 
-class BrandResponse extends BaseJsonResponse
+class ProductResponse extends BaseJsonResponse
 {
+
     public function __construct(
-        Brand $brand,
+         Product $product,
     ) {
-        parent::__construct($brand);
+        parent::__construct($product);
     }
 
     public function toArray(): array
     {
-        assert($this->model instanceof Brand);
+        assert($this->model instanceof Product);
         return [
             'id' => $this->model->id,
             'uuid' => $this->model->uuid,
+            'Category Name' => $this->model->category->title,
+            'Brand Name' => $this->model->brand?->title,
             'Title' => $this->model->title,
-            'Slug' => $this->model->slug,
+            'Discription' => $this->model->description,
+            'Image' => $this->model->metadata['image'] ?? '',
+            'Price' => $this->model->price,
             'Created At' => Carbon::parse($this->model->created_at)->format('d.m.Y'),
         ];
     }

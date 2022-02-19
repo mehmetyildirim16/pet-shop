@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Products\BrandsController;
 use App\Http\Controllers\Products\CategoriesController;
+use App\Http\Controllers\Products\ProductsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
@@ -59,6 +60,14 @@ Route::prefix('/v1')->group(function () {
                 Route::put('/{uuid}', 'updateBrand');
                 Route::patch('/{uuid}', 'updateBrand');
                 Route::delete('/{uuid}', 'deleteBrand');
+            });
+            Route::get('/products', [ProductsController::class, 'getProducts']);
+            Route::controller(ProductsController::class)->prefix('/product')->group(function () {
+                Route::post('/create', 'createProduct');
+                Route::get('/{uuid}', 'getProduct');
+                Route::put('/{uuid}', 'updateProduct');
+                Route::patch('/{uuid}', 'updateProduct');
+                Route::delete('/{uuid}', 'deleteProduct');
             });
         });
     });
