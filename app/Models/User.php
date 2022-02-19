@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasUuid;
 use App\Traits\Uuid;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -146,7 +147,7 @@ class User extends Authenticatable
     use HasApiTokens;
     use HasFactory;
     use Notifiable;
-    use Uuid;
+    use HasUuid;
 
     /**
      * The attributes that are mass assignable.
@@ -159,8 +160,6 @@ class User extends Authenticatable
         'password',
     ];
 
-    protected $primaryKey = 'uuid';
-    public $incrementing = false;
 
     /**
      * The attributes that should be hidden for serialization.

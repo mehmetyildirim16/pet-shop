@@ -15,7 +15,9 @@ class ProductAction
             'metadata' => [['brand' => $data['brand']]],
             'category_uuid' => $data['category_uuid'],
                         ]);
-        $product->addFile($data['image']);
+        if(isset($data['image'])) {
+            $product->addFile($data['image']);
+        }
         return $product;
     }
 

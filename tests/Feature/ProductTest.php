@@ -56,7 +56,6 @@ class ProductTest extends TestCase
             'description' => $this->faker->paragraph(3),
             'price' => $this->faker->randomFloat(2, 1, 100),
             'brand' => $brand->uuid,
-            'image' => $this->faker->imageUrl(200, 200),
         ])->assertStatus(400);
         $this->withToken($this->token)->post('api/v1/admin/product/create', [
             'title' => $this->faker->sentence(2),
@@ -64,7 +63,6 @@ class ProductTest extends TestCase
             'description' => $this->faker->paragraph(3),
             'price' => $this->faker->randomFloat(2, 1, 100),
             'brand' => $brand->uuid,
-            'image' => $this->faker->imageUrl(200, 200),
         ])->assertStatus(200);
         self::assertEquals(1, Product::all()->count());
     }
@@ -82,7 +80,6 @@ class ProductTest extends TestCase
             'description' => $this->faker->paragraph(3),
             'price' => $this->faker->randomFloat(2, 1, 100),
             'brand' => $brand->uuid,
-            'image' => $this->faker->imageUrl(200, 200),
         ])->assertStatus(200);
         self::assertEquals('test', Product::find($product->id)->title);
     }
