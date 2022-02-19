@@ -2,12 +2,17 @@
 
 namespace App\Models\Orders;
 
+use App\Traits\HasUuid;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class OrderPayment extends Model
+class Payment extends Model
 {
-    protected $table = 'order_payments';
+    use HasFactory;
+    use HasUuid;
+
+    protected $table = 'payments';
     protected $guarded = [];
 
     protected $casts = [

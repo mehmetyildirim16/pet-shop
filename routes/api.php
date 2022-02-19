@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Orders\OrdersController;
 use App\Http\Controllers\Orders\OrderStatusController;
 use App\Http\Controllers\Orders\PaymentController;
 use App\Http\Controllers\Products\BrandsController;
@@ -43,10 +44,18 @@ Route::prefix('/v1')->group(function () {
                 Route::post('/create', 'createPayment');
                 Route::get('/{uuid}', 'getPayment');
                 Route::put('/{uuid}', 'updatePayment');
+                Route::patch('/{uuid}', 'updatePayment');
                 Route::delete('/{uuid}', 'deletePayment');
             });
 
             Route::get('/orders', [OrderStatusController::class, 'getOrders']);
+            Route::controller(OrdersController::class)->prefix('/orders')->group(function () {
+                Route::get('/{uuid}', 'getOrder');
+                Route::post('/create', 'createOrder');
+                Route::put('/{uuid}', 'updateOrder');
+                Route::patch('/{uuid}', 'updateOrder');
+                Route::delete('/{uuid}', 'deleteOrder');
+            });
         });
     });
 

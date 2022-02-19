@@ -39,13 +39,12 @@ class CreateOrdersTable extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('payment_id');
-            $table->unsignedBigInteger('order_status_id')->nullable();
+            $table->unsignedBigInteger('payment_id')->nullable();
+            $table->unsignedBigInteger('order_status_id');
             $table->uuid('uuid')->unique();
             $table->json('products');
             $table->json('address');
             $table->decimal('delivery_fee', 8, 2)->nullable();
-            $table->decimal('amount', 8, 2);
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');
