@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Orders\OrderStatusController;
+use App\Http\Controllers\Orders\PaymentController;
 use App\Http\Controllers\Products\BrandsController;
 use App\Http\Controllers\Products\CategoriesController;
 use App\Http\Controllers\Products\ProductsController;
@@ -35,6 +37,16 @@ Route::prefix('/v1')->group(function () {
         Route::middleware('auth.user')->group(function () {
             Route::get('/me', 'getUser');
             Route::post('/logout', 'logoutAsUser');
+
+            Route::get('/payments', [PaymentController::class, 'getPayments']);
+            Route::controller(PaymentController::class)->prefix('/payments')->group(function () {
+                Route::post('/create', 'createPayment');
+                Route::get('/{uuid}', 'getPayment');
+                Route::put('/{uuid}', 'updatePayment');
+                Route::delete('/{uuid}', 'deletePayment');
+            });
+
+            Route::get('/orders', [OrderStatusController::class, 'getOrders']);
         });
     });
 
@@ -68,6 +80,15 @@ Route::prefix('/v1')->group(function () {
                 Route::put('/{uuid}', 'updateProduct');
                 Route::patch('/{uuid}', 'updateProduct');
                 Route::delete('/{uuid}', 'deleteProduct');
+            });
+
+            Route::get('/order-statuses', [OrderStatusController::class, 'getOrderStatuses']);
+            Route::controller(OrderStatusController::class)->prefix('/order-status')->group(function () {
+                Route::post('/create', 'createOrderStatus');
+                Route::get('/{uuid}', 'getOrderStatus');
+                Route::put('/{uuid}', 'updateOrderStatus');
+                Route::patch('/{uuid}', 'updateOrderStatus');
+                Route::delete('/{uuid}', 'deleteOrderStatus');
             });
         });
     });

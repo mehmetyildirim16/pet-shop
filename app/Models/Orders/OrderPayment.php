@@ -3,6 +3,7 @@
 namespace App\Models\Orders;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class OrderPayment extends Model
 {
@@ -12,4 +13,9 @@ class OrderPayment extends Model
     protected $casts = [
         'details' => 'array',
     ];
+
+    public function order():HasOne
+    {
+        return $this->hasOne(Order::class);
+    }
 }
