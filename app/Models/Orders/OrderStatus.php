@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|OrderStatus whereUuid($value)
  * @mixin \Eloquent
+ * @method static \Database\Factories\Orders\OrderStatusFactory factory(...$parameters)
  */
 class OrderStatus extends Model
 {
