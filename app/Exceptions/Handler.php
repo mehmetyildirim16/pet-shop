@@ -2,7 +2,9 @@
 
 namespace App\Exceptions;
 
+use App\Http\Middleware\Authenticate;
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,6 +48,9 @@ class Handler extends ExceptionHandler
     {
         if ($e instanceof ModelNotFoundException) {
             return response()->json(['status' => 'failed', 'data' => null, 'message' => 'Data not found'], 404);
+        }
+        if($e instanceof AuthenticationException){
+            return response()->json(['status' => 'failed', 'data' => null, 'message' => 'Unauthorized'], 401);
         }
         return parent::render($request, $e);
     }

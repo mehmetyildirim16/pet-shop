@@ -48,8 +48,8 @@ Route::prefix('/v1')->group(function () {
                 Route::delete('/{uuid}', 'deletePayment');
             });
 
-            Route::get('/orders', [OrderStatusController::class, 'getOrders']);
-            Route::controller(OrdersController::class)->prefix('/orders')->group(function () {
+            Route::get('/orders', [OrdersController::class, 'getOrders']);
+            Route::controller(OrdersController::class)->prefix('/order')->group(function () {
                 Route::get('/{uuid}', 'getOrder');
                 Route::post('/create', 'createOrder');
                 Route::put('/{uuid}', 'updateOrder');

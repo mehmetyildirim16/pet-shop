@@ -38,6 +38,7 @@ class OrderFactory extends Factory
         }
         if($order_status->title === 'paid' || $order_status->title === 'shipped') {
             $order_payment = Payment::factory()->create();
+
         }
 
         return [
@@ -45,10 +46,11 @@ class OrderFactory extends Factory
             'order_status_id' => $order_status->id,
             'products' => $products_array,
             'address' => [
-                'invoice' => $this->faker->address,
-                'delivery' => $this->faker->address,
+                'shipping' => $this->faker->address,
+                'billing' => $this->faker->address,
             ],
             'delivery_fee' => $total_price >=500 ? 0 : 15,
+            'shipped_at' => $order_status->title === 'shipped' ? now() : null,
         ];
     }
 }

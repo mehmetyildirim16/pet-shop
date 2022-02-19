@@ -36,6 +36,11 @@ class OrderStatus extends Model
     protected $table = 'order_statuses';
     protected $guarded = [];
 
+    public static function getDefaultStatus():self
+    {
+        return self::where('title', 'open')->firstOrFail();
+    }
+
     public function orders():HasMany
     {
         return $this->hasMany(Order::class);

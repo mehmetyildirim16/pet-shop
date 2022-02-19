@@ -45,6 +45,7 @@ class CreateOrdersTable extends Migration
             $table->json('products');
             $table->json('address');
             $table->decimal('delivery_fee', 8, 2)->nullable();
+            $table->date('shipped_at')->nullable();
             $table->timestamps();
 
             $table->foreign('user_id')->references('id')->on('users');

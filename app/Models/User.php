@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Traits\HasUuid;
 use App\Traits\Uuid;
 use Carbon\Carbon;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -101,6 +102,7 @@ use Lcobucci\JWT\Token\Plain;
  * )
  *
  * )
+ * @property int $id
  * @property string $uuid
  * @property string $first_name
  * @property string $last_name
@@ -197,7 +199,9 @@ class User extends Authenticatable
      */
     public static function getUserByToken(?string $bearerToken): User|null
     {
-        $token = UserToken::where('unique_id', $bearerToken)->firstOrFail();
+        $token = UserToken::where('unique_id', $bearerToken)->first();
+        if (!$token)
+            throw new AuthenticationException();
         if ($token->expires_at < now()) {
             return null;
         }

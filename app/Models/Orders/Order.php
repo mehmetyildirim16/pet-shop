@@ -3,6 +3,7 @@
 namespace App\Models\Orders;
 
 
+use App\Models\Products\Product;
 use App\Models\User;
 use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -22,8 +23,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property string|null $delivery_fee
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
- * @property-read \App\Models\Orders\Payment|null $OrderPayment
- * @property-read \App\Models\Orders\OrderStatus $OrderStatus
+ * @property-read \App\Models\Orders\Payment|null $payment
+ * @property-read \App\Models\Orders\OrderStatus $orderStatus
  * @property-read User $user
  * @method static \Database\Factories\Orders\OrderFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Order newModelQuery()
@@ -40,6 +41,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|Order whereUuid($value)
  * @mixin \Eloquent
+ * @property string|null $shipped_at
+ * @method static \Illuminate\Database\Eloquent\Builder|Order whereShippedAt($value)
+ * @property-read float $total_price
  */
 class Order extends Model
 {
@@ -59,15 +63,21 @@ class Order extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function OrderStatus(): BelongsTo
+    public function orderStatus(): BelongsTo
     {
         return $this->belongsTo(OrderStatus::class);
     }
 
-    public function OrderPayment(): BelongsTo
+    public function payment(): BelongsTo
     {
         return $this->belongsTo(Payment::class);
     }
 
+    public function getTotalPriceAttribute(): float
+    {
+        return array_sum(array_map(static function ($product) {
+                return Product::whereUuid($product['product'])->firstOrFail()->price * $product['quantity'];
+            }, $this->products));
+    }
 
 }
