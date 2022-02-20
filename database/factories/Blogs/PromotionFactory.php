@@ -26,8 +26,8 @@ class PromotionFactory extends Factory
             'title' => $this->faker->word,
             'content' => $this->faker->paragraphs(3, true),
             'metadata' => [
-                'valid_from' => $this->faker->dateTimeBetween('-1 year', '+1 year'),
-                'valid_to' => $this->faker->dateTimeBetween('+1 year', '+2 years'),
+                'valid_from' => $this->faker->dateTimeBetween('-1 year', '+1 year')->format('Y-m-d'),
+                'valid_to' => $this->faker->dateTimeBetween('+1 year', '+2 years')->format('Y-m-d'),
             ]
         ];
     }

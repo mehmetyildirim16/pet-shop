@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Main\MainController;
 use App\Http\Controllers\Orders\OrdersController;
 use App\Http\Controllers\Orders\OrderStatusController;
 use App\Http\Controllers\Orders\PaymentController;
@@ -25,7 +26,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::prefix('/v1')->group(function () {
+Route::prefix('/v1')->middleware('throttle:60,1')->group(function () {
     //Dummy route to check if the API is working
     Route::get('/ping', fn()=> ['status' => 'OK']);
 
@@ -55,6 +56,12 @@ Route::prefix('/v1')->group(function () {
                 Route::put('/{uuid}', 'updateOrder');
                 Route::patch('/{uuid}', 'updateOrder');
                 Route::delete('/{uuid}', 'deleteOrder');
+            });
+
+            Route::controller(MainController::class)->prefix('/main')->group(function () {
+                Route::get('/blog', 'getBlogs');
+                Route::get('/blog/{uuid}', 'getBlog');
+                Route::get('/promotions', 'getPromotions');
             });
         });
     });

@@ -10,7 +10,7 @@ use DB;
 trait HasFile
 {
 
-    public static function bootHasFile()
+    public static function bootHasFile():void
     {
         static::deleting(function ($model) {
             if (isset($model->metadata['image'])) {
