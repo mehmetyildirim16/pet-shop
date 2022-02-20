@@ -48,7 +48,7 @@
                                                         itemtype="http://schema.org/HttpActionHandler"
                                                         style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; vertical-align: top; margin: 0; padding: 10px 10px;"
                                                         valign="top">
-                                                        <a href="{{url('/password/reset/'.$user->remember_token.'?email='.$user->email)}}" itemprop="url"
+                                                        <a href="{{url('/password/reset/'.$token.'?email='.$user->email)}}" itemprop="url"
                                                            style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; color: #FFF; text-decoration: none; line-height: 2em; font-weight: bold; text-align: center; cursor: pointer; display: block; border-radius: 5px; text-transform: capitalize; background-color: #4d79f6; margin: 0; border-color: #4d79f6; border-style: solid; border-width: 10px 20px;">Reset Password</a>
                                                     </td>
                                                 </tr>
@@ -79,7 +79,7 @@
                                                 <tr style="font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif; box-sizing: border-box; font-size: 14px; margin: 0;">
                                                     <td class="content-block">
                                                         If the button didn't work, please click on the following link:
-                                                        <a target="_blank" href="{{url('/password/reset/'.$user->remember_token).'?email='.$user->email}}">{{url('/password/reset/'.$user->remember_token).'?email='.$user->email}}</a>
+                                                        <a target="_blank" href="{{url('/password/reset/'.$token).'?email='.$user->email}}">{{url('/password/reset/'.$token).'?email='.$user->email}}</a>
                                                     </td>
                                                 </tr>
 

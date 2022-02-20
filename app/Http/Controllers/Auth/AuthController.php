@@ -10,6 +10,8 @@ use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use DB;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -193,7 +195,12 @@ class AuthController extends Controller
     public function sendResetPasswordEmail(Request $request): JsonResponse
     {
         $user = User::where('email', $request->email)->firstOrFail();
-        Mail::send(new ResetPasswordEmail($user));
+        $token = Str::random(60);
+        PasswordReset::create([
+                                  'email' => $user->email,
+                                  'token' => $token,
+                              ]);
+        Mail::send(new ResetPasswordEmail($user, $token));
         return response()->json(['message' => 'Reset password email sent']);
     }
 
@@ -242,12 +249,13 @@ class AuthController extends Controller
             'email' => 'required|min:3|max:50',
             'password' => 'required|confirmed|min:8',
         ]);
-        $user = User::where('email', $request->email)->firstOrFail();
-        if ($user->remember_token !== $request->token) {
-            return response()->json(['message' => 'Invalid token'], 400);
-        }
-        $user->password = bcrypt($request->password);
-        $user->save();
-        return response()->json(['message' => 'Password changed']);
+        return DB::transaction(function () use ($request) {
+            $token = PasswordReset::where('token', $request->token)->firstOrFail();
+            $user = User::where('email', $token->email)->firstOrFail();
+            $user->password = bcrypt($request->all()['password']);
+            $user->save();
+            $token->delete();
+            return response()->json(['message' => 'Password changed']);
+        });
     }
 }
