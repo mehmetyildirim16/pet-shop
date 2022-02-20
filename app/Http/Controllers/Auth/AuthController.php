@@ -6,10 +6,13 @@ use App\Actions\LoginAction;
 use App\Data\Responses\Auth\UserResponse;
 use App\Http\Controllers\Controller;
 use App\Mails\ResetPasswordEmail;
+use App\Models\Orders\Payment;
+use App\Models\PasswordReset;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+use DB;
 
 class AuthController extends Controller
 {
@@ -246,8 +249,14 @@ class AuthController extends Controller
         if ($user->remember_token !== $request->token) {
             return response()->json(['message' => 'Invalid token'], 400);
         }
-        $user->password = bcrypt($request->password);
-        $user->save();
-        return response()->json(['message' => 'Password changed']);
+        return DB::transaction(function () use ($user, $request) {
+            $user->password = bcrypt($request->all()['password']);
+            $user->save();
+            PasswordReset::create([
+                                      'email' => $user->email,
+                                      'token' => $user->remember_token,
+                                  ]);
+            return response()->json(['message' => 'Password changed']);
+        });
     }
 }
