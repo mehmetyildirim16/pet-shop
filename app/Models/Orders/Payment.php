@@ -64,4 +64,13 @@ class Payment extends Model
             'details.name' => 'required_if:type,bank_transfer|string',
         ];
     }
+
+    public function getFullTypeAttribute(): string
+    {
+        return match ($this->type) {
+            'credit_card' => 'Credit Card',
+            'cash_on_delivery' => 'Cash on Delivery',
+            'bank_transfer' => 'Bank Transfer',
+        };
+    }
 }

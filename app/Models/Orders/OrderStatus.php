@@ -51,5 +51,4 @@ class OrderStatus extends Model
     {
         return $this->hasMany(Order::class);
     }
-
 }

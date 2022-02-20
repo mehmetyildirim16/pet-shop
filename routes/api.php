@@ -57,6 +57,7 @@ Route::prefix('/v1')->group(function () {
                 Route::put('/{uuid}', 'updateOrder');
                 Route::patch('/{uuid}', 'updateOrder');
                 Route::delete('/{uuid}', 'deleteOrder');
+                Route::get('/{uuid}/download', 'downloadInvoice')->middleware('auth.admin');
             });
         });
     });

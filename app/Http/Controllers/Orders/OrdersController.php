@@ -9,6 +9,10 @@ use App\Models\Orders\Order;
 use App\Models\Orders\OrderStatus;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
+use Illuminate\Support\Facades\App;
+use Illuminate\View\View;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class OrdersController extends Controller
 {
@@ -57,7 +61,7 @@ class OrdersController extends Controller
         return response()->json((new OrderResponse($order))->toArray(), 200);
     }
 
-    public function deleteOrder(string $uuid, Request $request):JsonResponse
+    public function deleteOrder(string $uuid, Request $request): JsonResponse
     {
         $user = authUser($request);
         $order = Order::where('user_id', $user->id)->whereUuid($uuid)->firstOrFail();
@@ -65,15 +69,27 @@ class OrdersController extends Controller
         return response()->json('Order deleted', 200);
     }
 
-    public function dashboard(Request $request):JsonResponse
+    public function dashboard(Request $request): JsonResponse
     {
         $orders = Order::all();
         return response()->json(OrderResponse::jsonSerialize($orders, $request->page), 200);
     }
 
-    public function shipmentLocator(Request $request):JsonResponse
+    public function shipmentLocator(Request $request): JsonResponse
     {
         $orders = Order::whereOrderStatusId(OrderStatus::SHIPPED)->get();
         return response()->json(OrderResponse::jsonSerialize($orders, $request->page), 200);
+    }
+
+    public function downloadInvoice(string $uuid): Response|JsonResponse
+    {
+        $order = Order::whereUuid($uuid)->firstOrFail();
+        if ($order->order_status_id === OrderStatus::whereTitle(OrderStatus::STATUS_PENDING)->firstOrFail()->id ||
+            $order->order_status_id === OrderStatus::whereTitle(OrderStatus::CANCELLED)->firstOrFail()->id ||
+            $order->order_status_id === OrderStatus::whereTitle(OrderStatus::STATUS_PENDING)->firstOrFail()->id) {
+            return response()->json('Order not shipped', 400);
+        }
+        $pdf = Pdf::loadView('pdf.invoice', compact('order'));
+        return $pdf->stream();
     }
 }
