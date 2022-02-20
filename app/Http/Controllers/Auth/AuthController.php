@@ -6,6 +6,7 @@ use App\Actions\LoginAction;
 use App\Data\Responses\Auth\UserResponse;
 use App\Http\Controllers\Controller;
 use App\Mails\ResetPasswordEmail;
+use App\Models\PasswordReset;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;

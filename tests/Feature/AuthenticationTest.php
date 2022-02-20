@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 use App\Mails\ResetPasswordEmail;
+use App\Models\PasswordReset;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Mail;
@@ -109,7 +110,10 @@ class AuthenticationTest extends TestCase
             ->create([
                          'email' => 'john@doe.com',
                      ]);
-        $token = $user->remember_token;
+        $this->post('/api/v1/forgot-password', [
+            'email' => $user->email,
+        ])->assertStatus(200);
+        $token = PasswordReset::where('email', $user->email)->firstOrFail()->token;
         $this->post('/api/v1/reset-password?token=' . $token, [
             'email' => 'john@doe.com',
             'password' => 'supersecret',
