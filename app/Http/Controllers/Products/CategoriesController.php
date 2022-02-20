@@ -10,10 +10,10 @@ use Illuminate\Http\Request;
 
 class CategoriesController extends Controller
 {
-    public function getCategories(): JsonResponse
+    public function getCategories(Request $request): JsonResponse
     {
         $categories = Category::all();
-        return CategoryResponse::jsonSerialize($categories);
+        return CategoryResponse::jsonSerialize($categories, $request->page);
     }
 
     public function createCategory(Request $request): JsonResponse

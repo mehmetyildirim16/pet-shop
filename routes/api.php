@@ -50,6 +50,8 @@ Route::prefix('/v1')->group(function () {
 
             Route::get('/orders', [OrdersController::class, 'getOrders']);
             Route::controller(OrdersController::class)->prefix('/order')->group(function () {
+                Route::get('/dashboard', 'dashboard')->middleware('auth.admin');
+                Route::get('/shipment-locator', 'shipmentLocator')->middleware('auth.admin');
                 Route::get('/{uuid}', 'getOrder');
                 Route::post('/create', 'createOrder');
                 Route::put('/{uuid}', 'updateOrder');

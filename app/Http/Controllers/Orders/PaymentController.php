@@ -25,7 +25,7 @@ class PaymentController extends Controller
         $payments = $orders->map(fn($order) => $order->payment)
             ->flatten()
             ->filter(fn($payment) => $payment !== null);
-        return PaymentResponse::jsonSerialize($payments);
+        return PaymentResponse::jsonSerialize($payments, $request->page);
     }
 
     public function getPayment(Request $request, string $uuid): JsonResponse

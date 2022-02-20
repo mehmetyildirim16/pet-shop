@@ -79,7 +79,7 @@ class CategoryTest extends TestCase
         $this->authenticate();
         Category::factory(10)->create();
         $response = $this->withToken($this->token)->get('api/v1/admin/categories')->assertStatus(200);
-        self::assertCount(10, $response->json());
+        self::assertEquals(10, $response->json()['total']);
     }
 
 }

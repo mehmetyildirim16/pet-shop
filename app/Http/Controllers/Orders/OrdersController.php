@@ -6,6 +6,7 @@ use App\Actions\OrderAction;
 use App\Data\Responses\Orders\OrderResponse;
 use App\Http\Controllers\Controller;
 use App\Models\Orders\Order;
+use App\Models\Orders\OrderStatus;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -32,7 +33,7 @@ class OrdersController extends Controller
     {
         $user = authUser($request);
         $orders = Order::where('user_id', $user->id)->get();
-        return response()->json(OrderResponse::jsonSerialize($orders), 200);
+        return response()->json(OrderResponse::jsonSerialize($orders, $request->page), 200);
     }
 
     /**
@@ -62,5 +63,17 @@ class OrdersController extends Controller
         $order = Order::where('user_id', $user->id)->whereUuid($uuid)->firstOrFail();
         $order->delete();
         return response()->json('Order deleted', 200);
+    }
+
+    public function dashboard(Request $request):JsonResponse
+    {
+        $orders = Order::all();
+        return response()->json(OrderResponse::jsonSerialize($orders, $request->page), 200);
+    }
+
+    public function shipmentLocator(Request $request):JsonResponse
+    {
+        $orders = Order::whereOrderStatusId(OrderStatus::SHIPPED)->get();
+        return response()->json(OrderResponse::jsonSerialize($orders, $request->page), 200);
     }
 }

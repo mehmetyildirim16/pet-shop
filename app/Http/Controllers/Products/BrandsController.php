@@ -10,10 +10,10 @@ use Illuminate\Http\Request;
 
 class BrandsController extends Controller
 {
-    public function getBrands(): JsonResponse
+    public function getBrands(Request $request): JsonResponse
     {
         $categories = Brand::all();
-        return BrandResponse::jsonSerialize($categories);
+        return BrandResponse::jsonSerialize($categories, $request->page);
     }
 
     public function createBrand(Request $request): JsonResponse

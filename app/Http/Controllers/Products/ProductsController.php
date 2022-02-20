@@ -14,10 +14,10 @@ class ProductsController extends Controller
 {
     public function __construct(private ProductAction $action) { }
 
-    public function getProducts(): JsonResponse
+    public function getProducts(Request $request): JsonResponse
     {
         $products = Product::all();
-        return ProductResponse::jsonSerialize($products);
+        return ProductResponse::jsonSerialize($products, $request->page);
     }
 
     public function getProduct(string $uuid): JsonResponse

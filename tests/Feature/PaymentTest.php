@@ -84,7 +84,7 @@ class PaymentTest extends TestCase
                      ]);
         $response = $this->withToken($this->token)->get('api/v1/payments')->assertStatus(200);
         $user_payments_count = Payment::all()->filter(fn($payment) => $payment->order->user_id === $user->id)->count();
-        assertEquals($user_payments_count, count($response->json()));
+        assertEquals($user_payments_count, $response->json()['total']);
     }
 
     public function test_user_can_create_and_view_payment_details()

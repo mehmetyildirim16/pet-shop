@@ -11,10 +11,10 @@ use Illuminate\Http\Request;
 class OrderStatusController extends Controller
 {
 
-    public function getOrderStatuses(): JsonResponse
+    public function getOrderStatuses(Request $request): JsonResponse
     {
         $statuses = OrderStatus::all();
-        return OrderStatusResponse::jsonSerialize($statuses);
+        return OrderStatusResponse::jsonSerialize($statuses, $request->page);
     }
 
     public function getOrderStatus(string $uuid): JsonResponse

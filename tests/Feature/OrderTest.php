@@ -80,7 +80,7 @@ class OrderTest extends TestCase
                          'user_id' => $user->id,
                      ]);
         $response = $this->withToken($this->token)->get('api/v1/orders')->assertStatus(200);
-        self::assertCount(5, $response->json()['original']);
+        self::assertEquals(5, $response->json()['original']['total']);
     }
 
     public function test_user_can_view_their_orders_by_uuid()

@@ -72,6 +72,6 @@ class OrderStatusTest extends TestCase
         $this->authenticate();
         OrderStatus::factory(10)->create();
         $response = $this->withToken($this->token)->get('api/v1/admin/order-statuses')->assertStatus(200);
-        self::assertCount(10, $response->json());
+        self::assertEquals(10, $response->json()['total']);
     }
 }
