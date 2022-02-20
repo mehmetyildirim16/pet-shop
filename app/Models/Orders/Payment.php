@@ -10,12 +10,12 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 /**
  * App\Models\Orders\Payment
  *
- * @property int $id
- * @property string $uuid
- * @property string $type
- * @property array $details
- * @property \Illuminate\Support\Carbon|null $created_at
- * @property \Illuminate\Support\Carbon|null $updated_at
+ * @property int                                $id
+ * @property string                             $uuid
+ * @property string                             $type
+ * @property array                              $details
+ * @property \Illuminate\Support\Carbon|null    $created_at
+ * @property \Illuminate\Support\Carbon|null    $updated_at
  * @property-read \App\Models\Orders\Order|null $order
  * @method static \Database\Factories\Orders\PaymentFactory factory(...$parameters)
  * @method static \Illuminate\Database\Eloquent\Builder|Payment newModelQuery()
@@ -31,6 +31,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  */
 class Payment extends Model
 {
+
     use HasFactory;
     use HasUuid;
 
@@ -41,8 +42,26 @@ class Payment extends Model
         'details' => 'array',
     ];
 
-    public function order():HasOne
+    public function order(): HasOne
     {
         return $this->hasOne(Order::class);
+    }
+
+    public static function rules(): array
+    {
+        return [
+            'type' => 'required|string',
+            'details' => 'required|array',
+            'details.holder_name' => 'required_if:type,credit_card|string',
+            'details.number' => 'required_if:type,credit_card|string',
+            'details.expire_date' => 'required_if:type,credit_card|string',
+            'details.cvv' => 'required_if:type,credit_card|integer',
+            'details.first_name' => 'required_if:type,cash_on_delivery|string',
+            'details.last_name' => 'required_if:type,cash_on_delivery|string',
+            'details.address' => 'required_if:type,cash_on_delivery|email',
+            'details.swift' => 'required_if:type,bank_transfer|string',
+            'details.iban' => 'required_if:type,bank_transfer|string',
+            'details.name' => 'required_if:type,bank_transfer|string',
+        ];
     }
 }

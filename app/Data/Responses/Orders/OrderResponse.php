@@ -14,6 +14,7 @@ class OrderResponse extends BaseJsonResponse
         return [
             'id' => $this->model->id,
             'uuid' => $this->model->uuid,
+            'Owner' => $this->model->user->full_name,
             'Status' => $this->model->orderStatus->title,
             'Payment' => $this->model->payment ? response()->json((new PaymentResponse($this->model->payment))->toArray()): null,
             'Products' => $this->model->products,

@@ -2,11 +2,13 @@
 
 namespace App\Models;
 
+use App\Models\Orders\Order;
+use App\Models\Orders\Payment;
 use App\Traits\HasUuid;
-use App\Traits\Uuid;
 use Carbon\Carbon;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
@@ -142,6 +144,11 @@ use Lcobucci\JWT\Token\Plain;
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|User whereUuid($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|Order[] $orders
+ * @property-read int|null $orders_count
+ * @property-read \Illuminate\Database\Eloquent\Collection|Payment[] $payments
+ * @property-read int|null $payments_count
+ * @method static \Illuminate\Database\Eloquent\Builder|User whereId($value)
  */
 class User extends Authenticatable
 {
@@ -247,4 +254,18 @@ class User extends Authenticatable
         return UserToken::where('user_id', $this->uuid)->where('expires_at', '>', now())->latest()->first();
     }
 
+    public function payments(): HasMany
+    {
+        return $this->hasMany(Payment::class);
+    }
+
+    public function orders(): HasMany
+    {
+        return $this->hasMany(Order::class);
+    }
+
+    public function getFullNameAttribute(): string
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
 }

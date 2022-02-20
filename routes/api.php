@@ -40,7 +40,7 @@ Route::prefix('/v1')->group(function () {
             Route::post('/logout', 'logoutAsUser');
 
             Route::get('/payments', [PaymentController::class, 'getPayments']);
-            Route::controller(PaymentController::class)->prefix('/payments')->group(function () {
+            Route::controller(PaymentController::class)->prefix('/payment')->group(function () {
                 Route::post('/create', 'createPayment');
                 Route::get('/{uuid}', 'getPayment');
                 Route::put('/{uuid}', 'updatePayment');

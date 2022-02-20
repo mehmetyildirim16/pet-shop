@@ -10,12 +10,6 @@ use Illuminate\Support\Collection;
 
 class BrandResponse extends BaseJsonResponse
 {
-    public function __construct(
-        Brand $brand,
-    ) {
-        parent::__construct($brand);
-    }
-
     public function toArray(): array
     {
         assert($this->model instanceof Brand);

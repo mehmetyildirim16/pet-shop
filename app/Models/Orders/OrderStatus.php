@@ -33,12 +33,18 @@ class OrderStatus extends Model
     use HasUuid;
     use HasFactory;
 
+    public const STATUS_OPEN = 'open';
+    public const STATUS_PENDING = 'pending payment';
+    public const STATUS_PAID = 'paid';
+    public const SHIPPED = 'shipped';
+    public const CANCELLED = 'cancelled';
+
     protected $table = 'order_statuses';
     protected $guarded = [];
 
     public static function getDefaultStatus():self
     {
-        return self::where('title', 'open')->firstOrFail();
+        return self::whereTitle(self::STATUS_OPEN)->firstOrFail();
     }
 
     public function orders():HasMany

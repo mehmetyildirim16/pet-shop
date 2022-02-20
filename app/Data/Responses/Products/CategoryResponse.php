@@ -9,12 +9,6 @@ use Carbon\Carbon;
 class CategoryResponse extends BaseJsonResponse
 {
 
-    public function __construct(
-        Category $category,
-    ) {
-        parent::__construct($category);
-    }
-
     public function toArray(): array
     {
         assert($this->model instanceof Category);

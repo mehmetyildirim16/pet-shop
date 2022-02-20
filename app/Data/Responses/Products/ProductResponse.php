@@ -11,12 +11,6 @@ use Illuminate\Support\Collection;
 class ProductResponse extends BaseJsonResponse
 {
 
-    public function __construct(
-         Product $product,
-    ) {
-        parent::__construct($product);
-    }
-
     public function toArray(): array
     {
         assert($this->model instanceof Product);
