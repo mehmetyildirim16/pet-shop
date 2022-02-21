@@ -108,10 +108,1714 @@
                     }
                 }
             }
+        },
+        "/api/v1/forgot-password": {
+            "post": {
+                "tags": [
+                    "forgot-password"
+                ],
+                "operationId": "forgotPassword",
+                "requestBody": {
+                    "description": "Input data format",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "Users email",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfuly sent email"
+                    }
+                }
+            }
+        },
+        "/api/v1/reset-password/{token}": {
+            "post": {
+                "tags": [
+                    "reset-password"
+                ],
+                "operationId": "resetPassword",
+                "requestBody": {
+                    "description": "Input data format",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "Users email",
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "description": "Users password",
+                                        "type": "string"
+                                    },
+                                    "password_confirmation": {
+                                        "description": "Users password",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfuly reset password"
+                    }
+                }
+            }
+        },
+        "/api/v1/logout": {
+            "post": {
+                "tags": [
+                    "logout"
+                ],
+                "operationId": "logout",
+                "responses": {
+                    "200": {
+                        "description": "Successfuly logged out"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/payments": {
+            "get": {
+                "tags": [
+                    "payments"
+                ],
+                "operationId": "getPayments",
+                "responses": {
+                    "200": {
+                        "description": "Successfuly fetched payments",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Payment"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/payment/create": {
+            "post": {
+                "tags": [
+                    "payments"
+                ],
+                "operationId": "createPayment",
+                "requestBody": {
+                    "description": "Input data format",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "type": {
+                                        "description": "Payment Type (credit_card, cash_on_delivery, bank_transfer)",
+                                        "type": "number"
+                                    },
+                                    "Details": {
+                                        "description": "Details of the payment",
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/PaymentDetail"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfuly created payment",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Payment"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/payment/{uuid}": {
+            "get": {
+                "tags": [
+                    "payments"
+                ],
+                "operationId": "getPayment",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Payment UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly fetched payment",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Payment"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "payments"
+                ],
+                "operationId": "updatePayment",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Payment UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Input data format",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "type": {
+                                        "description": "Payment Type (credit_card, cash_on_delivery, bank_transfer)",
+                                        "type": "number"
+                                    },
+                                    "Details": {
+                                        "description": "Details of the payment",
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/PaymentDetail"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfuly updated payment",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Payment"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "payments"
+                ],
+                "operationId": "updatePayment",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Payment UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Input data format",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "type": {
+                                        "description": "Payment Type (credit_card, cash_on_delivery, bank_transfer)",
+                                        "type": "number"
+                                    },
+                                    "Details": {
+                                        "description": "Details of the payment",
+                                        "type": "array",
+                                        "items": {
+                                            "$ref": "#/components/schemas/PaymentDetail"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successfuly updated payment",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Payment"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "payments"
+                ],
+                "operationId": "deletePayment",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Payment UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly deleted payment"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/orders": {
+            "get": {
+                "tags": [
+                    "orders"
+                ],
+                "operationId": "getOrders",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "number"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly retrieved orders",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Order"
+                                            }
+                                        },
+                                        "pagination": {
+                                            "$ref": "#/components/schemas/Pagination"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/order/create": {
+            "post": {
+                "tags": [
+                    "orders"
+                ],
+                "operationId": "createOrder",
+                "parameters": [
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Order details",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Order"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly created order",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ],
+            }
+        },
+        "/api/v1/order/{uuid}": {
+            "get": {
+                "tags": [
+                    "orders"
+                ],
+                "operationId": "getOrder",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Order UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly retrieved order",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "orders"
+                ],
+                "operationId": "updateOrder",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Order UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Order details",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Order"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly updated order",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "patch": {
+                "tags": [
+                    "orders"
+                ],
+                "operationId": "updateOrder",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Order UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "body",
+                        "in": "body",
+                        "description": "Order details",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/Order"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly updated order",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Order"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "orders"
+                ],
+                "operationId": "deleteOrder",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Order UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly deleted order"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/main/blog": {
+            "get": {
+                "tags": [
+                    "blog"
+                ],
+                "operationId": "getBlogPosts",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly retrieved blog posts",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/BlogPost"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/main/blog/{uuid}": {
+            "get": {
+                "tags": [
+                    "blog"
+                ],
+                "operationId": "getBlogPost",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Blog post UUID",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly retrieved blog post",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/BlogPost"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/main/promotions": {
+            "get": {
+                "tags": [
+                    "promotions"
+                ],
+                "operationId": "getPromotions",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly retrieved promotions",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Promotion"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/categories": {
+            "get": {
+                "tags": [
+                    "categories"
+                ],
+                "operationId": "getCategories",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly retrieved categories",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Category"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/category/create": {
+            "post": {
+                "tags": [
+                    "categories"
+                ],
+                "operationId": "createCategory",
+                "parameters": [
+                    {
+                        "name": "category",
+                        "in": "body",
+                        "description": "Category to create",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/CategoryRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly created category",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Category"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/category/{uuid}": {
+            "get": {
+                "tags": [
+                    "categories"
+                ],
+                "operationId": "getCategory",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Category uuid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly retrieved category",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Category"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "categories"
+                ],
+                "operationId": "updateCategory",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Category uuid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "category",
+                        "in": "body",
+                        "description": "Category to update",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/CategoryRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly updated category",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Category"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "categories"
+                ],
+                "operationId": "deleteCategory",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Category uuid",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly deleted category"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/brands": {
+            "get": {
+                "tags": [
+                    "brands"
+                ],
+                "operationId": "getBrands",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly retrieved brands",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Brand"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/brand/create": {
+            "post": {
+                "tags": [
+                    "brands"
+                ],
+                "operationId": "createBrand",
+                "parameters": [
+                    {
+                        "name": "brand",
+                        "in": "body",
+                        "description": "Brand to create",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/BrandRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly created brand",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Brand"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/brand/{uuid}": {
+            "get": {
+                "tags": [
+                    "brands"
+                ],
+                "operationId": "getBrand",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Brand uuid",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly retrieved brand",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Brand"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "brands"
+                ],
+                "operationId": "updateBrand",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Brand uuid",
+                        "required": true
+                    },
+                    {
+                        "name": "brand",
+                        "in": "body",
+                        "description": "Brand to update",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/BrandRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly updated brand",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Brand"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "brands"
+                ],
+                "operationId": "deleteBrand",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Brand uuid"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly deleted brand"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/products": {
+            "get": {
+                "tags": [
+                    "products"
+                ],
+                "operationId": "getProducts",
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number",
+                        "required": false,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly retrieved products",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Product"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/product/create": {
+            "post": {
+                "tags": [
+                    "products"
+                ],
+                "operationId": "createProduct",
+                "parameters": [
+                    {
+                        "name": "product",
+                        "in": "body",
+                        "description": "Product to create",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/ProductRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly created product",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/product/{uuid}" : {
+            "get": {
+                "tags": [
+                    "products"
+                ],
+                "operationId": "getProduct",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Product uuid"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly retrieved product",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "products"
+                ],
+                "operationId": "updateProduct",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Product uuid"
+                    },
+                    {
+                        "name": "product",
+                        "in": "body",
+                        "description": "Product to update",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/ProductRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly updated product",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "products"
+                ],
+                "operationId": "deleteProduct",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Product uuid"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly deleted product"
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/order-statuses" : {
+            "get": {
+                "tags": [
+                    "order-statuses"
+                ],
+                "operationId": "getOrderStatuses",
+                "responses": {
+                    "200": {
+                        "description": "Successfuly retrieved order statuses",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/OrderStatus"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/order-statuses/{uuid}" : {
+            "get": {
+                "tags": [
+                    "order-statuses"
+                ],
+                "operationId": "getOrderStatus",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Order status uuid"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly retrieved order status",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/OrderStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "order-statuses"
+                ],
+                "operationId": "updateOrderStatus",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Order status uuid"
+                    },
+                    {
+                        "name": "order-status",
+                        "in": "body",
+                        "description": "Order status to update",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/OrderStatusRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly updated order status",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/OrderStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "order-statuses"
+                ],
+                "operationId": "deleteOrderStatus",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Order status uuid"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly deleted order status"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/admin/order-staus/create" : {
+            "post": {
+                "tags": [
+                    "order-statuses"
+                ],
+                "operationId": "createOrderStatus",
+                "parameters": [
+                    {
+                        "name": "order-status",
+                        "in": "body",
+                        "description": "Order status to create",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/components/schemas/OrderStatusRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successfuly created order status",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/OrderStatus"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearer": []
+                    }
+                ]
+            }
         }
     },
     "components": {
         "schemas": {
+            "OrderStatusRequest": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    }
+                }
+            },
+            "OrderStatus": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "uuid": {
+                        "type": "string"
+                    },
+                    "Title": {
+                        "type": "string"
+                    },
+                    "Created At": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "ProductRequest": {
+                "type": "object",
+                "properties": {
+                    "category_uuid": {
+                        "type": "string"
+                    },
+                    "title": {
+                        "type": "string"
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "number"
+                    },
+                    "image": {
+                        "type": "string"
+                    },
+                    "brand_uuid": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Product": {
+                "type": "object",
+                "properties": {
+                    "uuid": {
+                        "type": "string"
+                    },
+                    "Category Name": {
+                        "type": "string"
+                    },
+                    "Brand Name": {
+                        "type": "string"
+                    },
+                    "Title": {
+                        "type": "string"
+                    },
+                    "Description": {
+                        "type": "string"
+                    },
+                    "Image": {
+                        "type": "string"
+                    },
+                    "price": {
+                        "type": "number"
+                    }
+                }
+            },
+            "BrandRequest": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Brand": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "uuid": {
+                        "type": "string"
+                    },
+                    "Title": {
+                        "type": "string"
+                    },
+                    "Slug": {
+                        "type": "string"
+                    },
+                    "Created At": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "CategoryRequest": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Category": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "uuid": {
+                        "type": "string"
+                    },
+                    "Title": {
+                        "type": "string"
+                    },
+                    "Slug": {
+                        "type": "string"
+                    },
+                    "Created At": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Promotion": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "uuid": {
+                        "type": "string"
+                    },
+                    "Title": {
+                        "type": "string"
+                    },
+                    "Content": {
+                        "type": "string"
+                    },
+                    "Valid From": {
+                        "type": "string"
+                    },
+                    "Valid To": {
+                        "type": "string"
+                    },
+                    "Image": {
+                        "type": "string"
+                    },
+                    "CreatedAt": {
+                        "type": "string"
+                    }
+                }
+            },
+            "BlogPost": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "uuid": {
+                        "type": "string"
+                    },
+                    "Title": {
+                        "type": "string"
+                    },
+                    "Content": {
+                        "type": "string"
+                    },
+                    "Author": {
+                        "type": "string"
+                    },
+                    "Image": {
+                        "type": "string"
+                    },
+                    "CreatedAt": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Pagination": {
+                "properties": {
+                    "current_page": {
+                        "type": "number"
+                    },
+                    "last_page": {
+                        "type": "number"
+                    },
+                    "per_page": {
+                        "type": "number"
+                    },
+                    "total": {
+                        "type": "number"
+                    }
+                },
+                "type": "object"
+            },
+            "Order": {
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "uuid": {
+                        "type": "string"
+                    },
+                    "Owner": {
+                        "type": "string"
+                    },
+                    "Products": {
+                        "type": "array",
+                        "items": {
+                            "$ref": "#/components/schemas/Products"
+                        }
+                    },
+                    "Payment": {
+                        "$ref": "#/components/schemas/Payment"
+                    },
+                    "Status": {
+                        "type": "string"
+                    },
+                    "Address": {
+                        "$ref": "#/components/schemas/Address"
+                    },
+                    "Delivery Fee": {
+                        "type": "number"
+                    },
+                    "Total Price": {
+                        "type": "number"
+                    },
+                    "Shipped At": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    },
+                    "updated_at": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Address": {
+                "properties": {
+                    "Shipping Address": {
+                        "type": "string"
+                    },
+                    "Billing Address": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "Products": {
+                "properties": {
+                    "Product": {
+                        "type": "string"
+                    },
+                    "Quantity": {
+                        "type": "string"
+                    }
+                },
+                "type": "object"
+            },
+            "PaymentDetail": {
+                "type": "object",
+                "properties": {
+                    "holder_name": {
+                        "description": "Name of the credit card holder. Required if the type is credit_card",
+                        "type": "string"
+                    },
+                    "number": {
+                        "description": "Card number. Required if the type is credit_card",
+                        "type": "string"
+                    },
+                    "expire_date": {
+                        "description": "Expiry date of the card. Required if the type is credit_card",
+                        "type": "string"
+                    },
+                    "cvv": {
+                        "description": "CVV of the card. Required if the type is credit_card",
+                        "type": "string"
+                    },
+                    "first_name": {
+                        "description": "First name of the recipient. Required if the type cash_on_delivery",
+                        "type": "string"
+                    },
+                    "last_name": {
+                        "description": "Last name of the recipient. Required if the type cash_on_delivery",
+                        "type": "string"
+                    },
+                    "address": {
+                        "description": "Address of the recipient. Required if the type cash_on_delivery",
+                        "type": "string"
+                    },
+                    "swift": {
+                        "description": "Swift code of the bank. Required if the type bank_transfer",
+                        "type": "string"
+                    },
+                    "iban": {
+                        "description": "IBAN of the bank. Required if the type bank_transfer",
+                        "type": "string"
+                    },
+                    "name": {
+                        "description": "Name of the bank. Required if the type bank_transfer",
+                        "type": "string"
+                    }
+                }
+            },
+            "Payment": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "uuid": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "details": {
+                        "type": "array"
+                    },
+                    "created_at": {
+                        "type": "string"
+                    },
+                    "updated_at": {
+                        "type": "string"
+                    }
+                }
+            },
             "User": {
                 "title": "User",
                 "description": "User model",
