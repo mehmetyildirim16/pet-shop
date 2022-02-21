@@ -39,7 +39,7 @@ class MainTest extends TestCase
         $response = $this->get('api/v1/main/blog', [
             'Authorization' => 'Bearer ' . $this->token,
         ])->assertStatus(200);
-        $response->assertJsonCount(5);
+        self::assertEquals(5, $response->json()['total']);
     }
 
     public function test_user_can_view_a_blog_post()

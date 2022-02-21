@@ -2,11 +2,14 @@
 
 namespace Database\Factories;
 
+use App\Config\JwtIssuer;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
 
 class UserFactory extends Factory
 {
+
     /**
      * Define the model's default state.
      *
@@ -38,6 +41,19 @@ class UserFactory extends Factory
             return [
                 'email_verified_at' => null,
             ];
+        });
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (User $user) {
+            $issuer = new JwtIssuer();
+            if($user->is_admin){
+                $token = $issuer->issueToken();
+                $user->last_login_at = now();
+                $user->save();
+                $user->addToken($token);
+            }
         });
     }
 }
