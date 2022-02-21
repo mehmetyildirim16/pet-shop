@@ -9,5 +9,7 @@ class PasswordReset extends Model
     protected $guarded = [];
     protected $table = 'password_resets';
 
+
     protected $primaryKey = 'email';
+
 }
